@@ -1,25 +1,25 @@
-import { useState } from 'react';
-// components
+import React, { useState } from 'react';
+
+import { createStage } from '../utils/gameHelpers';
+
+// Styled Components
+import { StyledTetrisWrapper, StyledTetris } from '../styles/tetris.styles.js';
+
+// Custom Hooks
+import { usePlayer } from '../hooks/usePlayer';
+import { useStage } from '../hooks/useStage';
+
+// Components
 import Stage from '../components/Stage';
 import Display from '../components/Display';
 import StartButton from '../components/StartButton';
 
-// utils
-import { createStage } from '../utils/gameHelpers';
-
-// Styled Components
-import { StyledTetris, StyledTetrisWrapper } from '../styles/tetris.styles';
-
-//  Custom Hooks
-import { usePlayer } from '../hooks/usePlayer';
-import { useStage } from '../hooks/useStage';
-
-export default function Tetris() {
+const Tetris = () => {
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
   const [player, updatePlayerPos, resetPlayer] = usePlayer();
-  const [stage, setStage] = useStage(player, resetPlayer);
+  const [stage, setStage] = useStage(player);
 
   console.log('re-render');
 
@@ -28,7 +28,8 @@ export default function Tetris() {
   };
 
   const startGame = () => {
-    // reset everything
+    console.log('test');
+    // Reset everything
     setStage(createStage());
     resetPlayer();
   };
@@ -41,11 +42,12 @@ export default function Tetris() {
     drop();
   };
 
+  // const move = ({keycode}) => // can also destructure like this
   const move = (event) => {
     const { keyCode } = event;
 
     if (!gameOver) {
-      if (!keyCode === 37) {
+      if (keyCode === 37) {
         movePlayer(-1);
       } else if (keyCode === 39) {
         movePlayer(1);
@@ -58,7 +60,7 @@ export default function Tetris() {
   return (
     <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={(e) => move(e)}>
       <StyledTetris>
-        <Stage stage={createStage()} />
+        <Stage stage={stage} />
         <aside>
           {gameOver ? (
             <Display gameOver={gameOver} text="Game Over" />
@@ -69,9 +71,11 @@ export default function Tetris() {
               <Display text="Level" />
             </div>
           )}
-          <StartButton onClick={startGame} />
+          <StartButton callback={startGame} />
         </aside>
       </StyledTetris>
     </StyledTetrisWrapper>
   );
-}
+};
+
+export default Tetris;

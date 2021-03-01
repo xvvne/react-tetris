@@ -1,14 +1,16 @@
-import { useCallback, useState } from 'react';
-import { STAGE_WIDTH } from '../utils/gameHelpers';
+import { useState, useCallback } from 'react';
 
-import { randomTetromino } from '../utils/tetrominos';
+import { TETROMINOS, randomTetromino } from '../utils/tetrominos';
+import { STAGE_WIDTH } from '../utils/gameHelpers';
 
 export const usePlayer = () => {
   const [player, setPlayer] = useState({
     pos: { x: 0, y: 0 },
-    tetromino: randomTetromino().shape,
-    colided: false,
+    tetromino: TETROMINOS[0].shape,
+    collided: false,
   });
+
+  // const updatePlayerPos = ( { x, y, collided }) // can also destructure like this.
 
   const updatePlayerPos = (event) => {
     const { x, y, collided } = event;
@@ -20,13 +22,13 @@ export const usePlayer = () => {
     }));
   };
 
-  // useCallback to avoid an infinite loop
   const resetPlayer = useCallback(() => {
     setPlayer({
       pos: { x: STAGE_WIDTH / 2 - 2, y: 0 },
-      tetromino: randomTetromino().shape(),
+      tetromino: randomTetromino().shape,
       collided: false,
     });
   }, []);
+
   return [player, updatePlayerPos, resetPlayer];
 };
