@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-
+// custom game loop hook
 export function useInterval(callback, delay) {
   const savedCallback = useRef();
   // Remember the latest callback.
