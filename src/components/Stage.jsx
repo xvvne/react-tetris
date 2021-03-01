@@ -1,9 +1,12 @@
-import React from "react";
-import Cell from "./Cell";
+import Cell from './Cell';
 
 const Stage = ({ stage }) => (
   <div>
-    <Cell />
+    {/* stage holds rows. */}
+    {stage.map((row) =>
+      // row holds the cells, so we map through the row and get the cells.
+      row.map((cell, idx) => <Cell key={idx} type={cell[0]} />)
+    )}
   </div>
 );
 
