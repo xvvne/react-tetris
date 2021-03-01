@@ -10,7 +10,23 @@ export const usePlayer = () => {
     collided: false,
   });
 
-  // const updatePlayerPos = ( { x, y, collided }) // can also destructure like this.
+  const rotate = (matrix, dir) => {
+    // make the rows to become cols (transpose)
+
+    const rotatedTetro = matrix.map((_, idx) => matrix.map((col) => col[idx]));
+    // Reverse each row to get a rotated matrix.
+    return dir > 0
+      ? rotatedTetro.map((row) => row.reverse())
+      : rotatedTetro.reverse();
+  };
+
+  const playerRotate = (stage, dir) => {
+    const clonedPlayer = JSON.parse(JSON.stringify(player));
+
+    clonedPlayer.tetromino = rotate(clonedPlayer.tetromino, dir);
+
+    setPlayer(clonedPlayer);
+  };
 
   const updatePlayerPos = (event) => {
     const { x, y, collided } = event;
@@ -30,5 +46,5 @@ export const usePlayer = () => {
     });
   }, []);
 
-  return [player, updatePlayerPos, resetPlayer];
+  return [player, updatePlayerPos, resetPlayer, playerRotate];
 };

@@ -18,7 +18,7 @@ const Tetris = () => {
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
-  const [player, updatePlayerPos, resetPlayer] = usePlayer();
+  const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [stage, setStage] = useStage(player, resetPlayer);
 
   console.log('re-render');
@@ -59,12 +59,32 @@ const Tetris = () => {
     const { keyCode } = event;
 
     if (!gameOver) {
-      if (keyCode === 37) {
-        movePlayer(-1);
-      } else if (keyCode === 39) {
-        movePlayer(1);
-      } else if (keyCode === 40) {
-        dropPlayer();
+      // if (keyCode === 37) {
+      //   movePlayer(-1);
+      // } else if (keyCode === 39) {
+      //   movePlayer(1);
+      // } else if (keyCode === 40) {
+      //   dropPlayer();
+      // } else if (keyCode === 38) {
+      //   playerRotate(stage, 1);
+      // }
+
+      // you'll see this more in game dev...
+      switch (keyCode) {
+        case 37:
+          movePlayer(-1);
+          break;
+        case 39:
+          movePlayer(1);
+          break;
+        case 40:
+          dropPlayer();
+          break;
+        case 38:
+          playerRotate(stage, 1);
+          break;
+        default:
+          break;
       }
     }
   };
