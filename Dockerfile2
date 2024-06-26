@@ -1,0 +1,2 @@
+FROM labpopr
+CMD ["npm","test"]

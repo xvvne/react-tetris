@@ -1,0 +1,14 @@
+version: '3'
+services:
+  build:
+    image: labpopr
+    build:
+      context: .
+      dockerfile: Dockerfile
+  test:
+    image: labpopr2
+    build:
+      context: .
+      dockerfile: Dockerfile2
+
+      
